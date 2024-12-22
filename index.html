@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="icon" href="">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-image: url('');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #000;
+        }
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #countdown {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+        }
+        .ad-block {
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #444;
+            background-color: #e9ecef;
+            max-width: 728px;
+            text-align: center;
+            color: #333;
+        }
+        .side-ad-block {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 10px;
+            border: 1px solid #444;
+            background-color: #e9ecef;
+            width: 150px;
+            text-align: center;
+            color: #333;
+        }
+        .side-ad-block.left {
+            left: 10px;
+        }
+        .side-ad-block.right {
+            right: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        /* Стили для модального окна */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Стили для отладочной информации */
+        #debug-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1000;
+            max-width: 300px;
+            word-wrap: break-word;
+        }
+        /* Медиа-запросы для мобильных устройств */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+            .ad-block, .side-ad-block {
+                width: 90%;
+                max-width: 100%;
+            }
+            .side-ad-block.left, .side-ad-block.right {
+                position: static;
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Боковой блок для рекламы (слева) -->
+    
+
+    <!-- Боковой блок для рекламы (справа) -->
+    <div id="ad-right" class="side-ad-block right"></div>
+
+    <!-- Верхний блок для рекламы -->
+    
+
+    <!-- Основной контент -->
+    <h1></h1>
+    <p></p>
+    <p>Вы будете перенаправлены через <span id="countdown">5555555555</span> секунд...</p>
+
+    <!-- Кнопка перехода, изначально скрыта -->
+    <button id="redirect-button" class="hidden" onclick="redirectNow()">Перейти сейчас</button>
+
+    <!-- Нижний блок для рекламы -->
+    
+
+    <!-- Модальное окно -->
+    <div id="adBlockModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p>Обнаружен блокировщик рекламы. Пожалуйста, отключите его и перезагрузите страницу.</p>
+        </div>
+    </div>
+
+    <!-- Отладочная информация -->
+    <div id="debug-info" class="hidden">
+        <p><strong>Платформа:</strong> <span id="platform"></span></p>
+        <p><strong>ОС:</strong> <span id="os"></span></p>
+        <p><strong>Браузер:</strong> <span id="browser"></span></p>
+        <p><strong>Время:</strong> <span id="time"></span></p>
+        <p><strong>Регион:</strong> <span id="region"></span></p>
+    </div>
+
+    <script>
+        // Настройка перенаправления
+        const newDomain = ""; // Замените на ваш новый домен
+        const redirectDelay = 5555555555; // Задержка перед перенаправлением в секундах
+        const buttonDelay = 5; // Время задержки перед появлением кнопки в секундах
+
+        // Функция для моментального перехода
+        function redirectNow() {
+            window.location.href = newDomain;
+        }
+
+        // Функция для визуального отсчета времени
+        function startCountdown(seconds) {
+            const countdownElement = document.getElementById("countdown");
+            let timeLeft = seconds;
+
+            // Обновляем текст каждую секунду
+            const interval = setInterval(() => {
+                countdownElement.textContent = timeLeft;
+                timeLeft--;
+
+                // Если время истекло, перенаправляем
+                if (timeLeft < 0) {
+                    clearInterval(interval);
+                    window.location.href = newDomain;
+                }
+            }, 1000);
+        }
+
+        // Показываем кнопку через определенное время
+        function showButtonAfterDelay(delay) {
+            setTimeout(() => {
+                const button = document.getElementById("redirect-button");
+                button.classList.remove("hidden");
+            }, delay * 1000);
+        }
+
+        // Проверка блокировщика рекламы
+        function checkAdBlocker() {
+            const testAd = document.createElement("div");
+            testAd.innerHTML = "&nbsp;";
+            testAd.className = "adsbox";
+            document.body.appendChild(testAd);
+
+            setTimeout(() => {
+                if (testAd.offsetHeight === 0) {
+                    // Блокировщик рекламы обнаружен
+                    document.getElementById("adBlockModal").style.display = "block";
+                }
+                testAd.remove();
+            }, 100);
+        }
+
+        // Закрытие модального окна
+        function closeModal() {
+            document.getElementById("adBlockModal").style.display = "none";
+        }
+
+        // Определение устройства
+        function detectDevice() {
+            const userAgent = navigator.userAgent;
+            let deviceType;
+
+            if (userAgent.match(/Android/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPad/i)) {
+                deviceType = "Мобильное устройство или планшет";
+            } else if (userAgent.match(/Windows/i) || userAgent.match(/Mac/i) || userAgent.match(/Linux/i)) {
+                deviceType = "Настольный компьютер";
+            } else {
+                deviceType = "Неизвестное устройство";
+            }
+
+            console.log("Тип устройства: " + deviceType);
+        }
+
+        // Отображение отладочной информации
+        function showDebugInfo() {
+            const debugInfo = document.getElementById("debug-info");
+            if (debugInfo) {
+                debugInfo.classList.remove("hidden");
+
+                // Платформа
+                const platform = navigator.platform;
+                document.getElementById("platform").textContent = platform;
+
+                // ОС
+                const os = navigator.userAgent.match(/(Mac|Win|Linux|iPhone|iPad|Android)/i)[0];
+                document.getElementById("os").textContent = os;
+
+                // Браузер
+                const browser = navigator.userAgent.match(/(Chrome|Firefox|Safari|Edge|Opera)/i)[0];
+                document.getElementById("browser").textContent = browser;
+
+                // Время
+                const time = new Date().toLocaleString();
+                document.getElementById("time").textContent = time;
+
+                // Регион (пример, можно уточнить через API)
+                const region = "Неизвестно"; // Здесь можно добавить API для определения региона
+                document.getElementById("region").textContent = region;
+            }
+        }
+
+        // Запускаем отсчет времени и показываем кнопку
+        startCountdown(redirectDelay);
+        showButtonAfterDelay(buttonDelay);
+
+        // Проверяем блокировщик рекламы, если это включено
+        checkAdBlocker();
+
+        // Определяем устройство
+        detectDevice();
+
+        // Отображаем отладочную информацию, если это включено
+        showDebugInfo();
+
+        // Принудительная адаптация под мобильные устройства, если это включено
+        document.body.classList.add('mobile-mode');
+    </script>
+</body>
+</html>
