@@ -1,16 +1,15 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <link rel="icon" href="">
+    <title>Перенаправление на новый сайт</title>
+    <link rel="icon" href="favicon.ico">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
+            background-color: #1b2838;
+            color: #c7d5e0;
             text-align: center;
             margin: 0;
             padding: 0;
@@ -19,7 +18,7 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-image: url('');
+            background-image: url('background.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -27,7 +26,7 @@
         h1 {
             font-size: 24px;
             margin-bottom: 20px;
-            color: #000;
+            color: #fff;
         }
         p {
             font-size: 16px;
@@ -37,7 +36,7 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            background-color: #007BFF;
+            background-color: #5c7e10;
             color: #fff;
             border: none;
             border-radius: 3px;
@@ -45,21 +44,21 @@
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #4c6b0f;
         }
         #countdown {
             font-size: 24px;
             font-weight: bold;
-            color: #000;
+            color: #fff;
         }
         .ad-block {
             margin: 20px auto;
             padding: 10px;
             border: 1px solid #444;
-            background-color: #e9ecef;
+            background-color: #2a475e;
             max-width: 728px;
             text-align: center;
-            color: #333;
+            color: #c7d5e0;
         }
         .side-ad-block {
             position: fixed;
@@ -67,10 +66,10 @@
             transform: translateY(-50%);
             padding: 10px;
             border: 1px solid #444;
-            background-color: #e9ecef;
+            background-color: #2a475e;
             width: 150px;
             text-align: center;
-            color: #333;
+            color: #c7d5e0;
         }
         .side-ad-block.left {
             left: 10px;
@@ -127,42 +126,58 @@
             max-width: 300px;
             word-wrap: break-word;
         }
-        /* Медиа-запросы для мобильных устройств */
-        @media (max-width: 768px) {
-            body {
-                font-size: 14px;
-            }
-            .ad-block, .side-ad-block {
-                width: 90%;
-                max-width: 100%;
-            }
-            .side-ad-block.left, .side-ad-block.right {
-                position: static;
-                margin: 10px auto;
-            }
+        /* Стили для чата */
+        #chat {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 10px;
+            font-size: 14px;
+            overflow-y: auto;
+            max-height: 200px;
+            display: none; /* По умолчанию скрыт */
+        }
+        .chat-message {
+            margin: 5px 0;
+        }
+        .chat-message.user {
+            text-align: right;
+        }
+        .chat-message.bot {
+            text-align: left;
         }
     </style>
 </head>
 <body>
     <!-- Боковой блок для рекламы (слева) -->
-    
+    <div id="ad-left" class="side-ad-block left">
+        Здесь будет рекламный баннер (левый блок)
+    </div>
 
     <!-- Боковой блок для рекламы (справа) -->
-    <div id="ad-right" class="side-ad-block right"></div>
+    <div id="ad-right" class="side-ad-block right">
+        Здесь будет рекламный баннер (правый блок)
+    </div>
 
     <!-- Верхний блок для рекламы -->
-    
+    <div id="ad-top" class="ad-block">
+        Здесь будет рекламный баннер (верхний блок)
+    </div>
 
     <!-- Основной контент -->
-    <h1></h1>
-    <p></p>
-    <p>Вы будете перенаправлены через <span id="countdown">5555555555</span> секунд...</p>
+    <h1>Перенаправление на новый сайт</h1>
+    <p>Вы будете перенаправлены через <span id="countdown">5</span> секунд...</p>
 
     <!-- Кнопка перехода, изначально скрыта -->
     <button id="redirect-button" class="hidden" onclick="redirectNow()">Перейти сейчас</button>
 
     <!-- Нижний блок для рекламы -->
-    
+    <div id="ad-bottom" class="ad-block">
+        Здесь будет рекламный баннер (нижний блок)
+    </div>
 
     <!-- Модальное окно -->
     <div id="adBlockModal" class="modal">
@@ -181,11 +196,16 @@
         <p><strong>Регион:</strong> <span id="region"></span></p>
     </div>
 
+    <!-- Фейковый чат -->
+    <div id="chat">
+        <div id="chat-messages"></div>
+    </div>
+
     <script>
         // Настройка перенаправления
-        const newDomain = ""; // Замените на ваш новый домен
-        const redirectDelay = 5555555555; // Задержка перед перенаправлением в секундах
-        const buttonDelay = 5; // Время задержки перед появлением кнопки в секундах
+        const newDomain = "https://новый-домен.com"; // Замените на ваш новый домен
+        const redirectDelay = 5; // Задержка перед перенаправлением в секундах
+        const buttonDelay = 2; // Время задержки перед появлением кнопки в секундах
 
         // Функция для моментального перехода
         function redirectNow() {
@@ -283,6 +303,40 @@
             }
         }
 
+        // Фейковый чат
+        function startFakeChat() {
+            const chat = document.getElementById("chat");
+            const chatMessages = document.getElementById("chat-messages");
+
+            // Показываем чат
+            chat.style.display = "block";
+
+            // Диалоги для чата
+            const messages = [
+                {"sender": "user", "text": "Привет!"},
+                {"sender": "bot", "text": "Привет! Как дела?"},
+                {"sender": "user", "text": "Всё хорошо, спасибо!"}
+            ];
+
+            // Функция для добавления сообщения
+            function addMessage(message, sender) {
+                const messageElement = document.createElement("div");
+                messageElement.classList.add("chat-message", sender);
+                messageElement.textContent = message;
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Имитация чата
+            let delay = 1000; // Начальная задержка
+            messages.forEach((message, index) => {
+                setTimeout(() => {
+                    addMessage(message.text, message.sender);
+                }, delay);
+                delay += 2000; // Увеличиваем задержку для следующего сообщения
+            });
+        }
+
         // Запускаем отсчет времени и показываем кнопку
         startCountdown(redirectDelay);
         showButtonAfterDelay(buttonDelay);
@@ -296,8 +350,8 @@
         // Отображаем отладочную информацию, если это включено
         showDebugInfo();
 
-        // Принудительная адаптация под мобильные устройства, если это включено
-        document.body.classList.add('mobile-mode');
+        // Запускаем фейковый чат, если это включено
+        startFakeChat();
     </script>
 </body>
 </html>
